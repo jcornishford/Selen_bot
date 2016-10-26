@@ -1,41 +1,49 @@
-import time
-from selenium import webdriver
-import sys
 import base64
+import sys
+import time
 
-#Obfuscate Information
-log_name = base64.b64encode('')
-pswd = base64.b64.encode('')
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains # Mouse actions and touchpad
+
+#Variables
+website = ''
+url = ''
+Chromedriver = 'C:\Users\Deaunna\Documents\chromedriver_win32\chromedriver'
+link = 'Login'
+local_mode = 0
+Internet_mode = 1
 
 
-# Path to Chromedriver binary file
-Chromedriver = 'C:\Users\Deaunna\Documents\chromedriver_win32\chromedriver' 
+def open_browser():
+ try:
+# Instantiate Chrome object
+    driver = webdriver.Chrome(Chromedriver)
+#Instantiate Action object for clicking, dragging etc..
+    actions = ActionChains(driver)
+# Navigate to a website
+    driver.get(str(website))
+# Halt program for a while
+    time.sleep(6)
+# Specify how html element will be accessed and store in variable
+    element = driver.find_element_by_link_text(link)
+# Start 'Actions' Queue, and dequeue(execute) each action on webpage
+    actions.move_to_element(element).click(element).perform()
+# Store site login information within variables
+    username = base64.b64decode('Zm9yZC5qZXJlbXk1MTBAZ21haWwuY29t')
+    password = base64.b64decode('Zm9yZC5qZXJlbXk1MTBAZ21haWwuY29t')
+# Kill the process
+    driver.quit()
+ except Exception:
+    print 'Something is wrong with chromdriver'
+#If the code doesn't work exit interpreter
+ sys.exit()
+    
 
 
-try:
-	# Instantiate webdriver class into object
-	driver = webdriver.Chrome(Chromedriver)
-#Fetch url via HTTP protocol
-	driver.get('https://calbike.nationbuilder.com/admin/signups/dedupe')
-except:
-	print 'Something is wrong with Chromedriver'
-	sys.exit
+if __name__ == '__main__':
+# Call main funtion of program
+	open_browser()
+	
+	
 
-#Select button for reviewing potential matches
-	driver.get_element_by_class_name('button btn-primary').click()
-
-#Return the the number of potential matches for review
-	driver.get_element_by_class_name('stat')
-	return duplicates
-
-#Stop the browser
-	time.sleep(6)
-
-#Select the name from Nationbuilder Database
-	signup_name = driver.find_element_by_class_name('sign-up')
-
-#Stop browser again
-	time.sleep(5)
-
-# Quit selenium
-	driver.quit()
+	
